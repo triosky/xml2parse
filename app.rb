@@ -65,15 +65,12 @@ $PATH = File.expand_path File.dirname(__FILE__)
 
 
               if golf_hole['HoleCoordinates'].present?
-                if golf_hole['HoleCoordinates']['GolfHoleCoordinate'].is_a?(Array)
-                  golf_hole['HoleCoordinates']['GolfHoleCoordinate'].each_with_index do |hole_coordinate, coordinate_idx|
+                golf_hole['HoleCoordinates']['GolfHoleCoordinate'].each_with_index do |hole_coordinate, coordinate_idx|
+                  if hole_coordinate['CoordinateType'].to_s == '0'
+                    rec_h["tee_loc"] = [hole_coordinate['latitude'].to_f, hole_coordinate['longitude'].to_f]
+                  else
                     rec_h["green#{coordinate_idx}_loc"] = [hole_coordinate['latitude'].to_f, hole_coordinate['longitude'].to_f]
                   end
-
-                elsif golf_hole['HoleCoordinates']['GolfHoleCoordinate'].is_a?(Hash)
-                  rec_h["tee_loc"] =  [golf_hole['HoleCoordinates']['GolfHoleCoordinate']['latitude'].to_f,
-                                        golf_hole['HoleCoordinates']['GolfHoleCoordinate']['longitude'].to_f]
-
                 end
               end
 
